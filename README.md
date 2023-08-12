@@ -69,3 +69,15 @@
 - cd home (home 폴더 접근)
 - mkdir ubuntu (ubuntu라는 이름의 폴더 생성)
 - vi hello (hello라는 이름의 파일 생성, 내용 입력은 aws repository를 참고)
+
+### docker file(기본적인 과정)
+- mkdir dockerwork (원하는 곳에 도커 파일을 저장할 폴더 만들기)
+- notepad를 통해 dockerfile 생성 (txt 확장자가 붙으면 제거, 확장자가 file이여야 함)
+- dockerfile 내용 (httpd 이미지를 가져와 .webapp에 있는 내용을 /usr/local/apache2/htdocs에 복붙, 이때 httpd-foreground 커맨드로 실행)
+- FROM httpd
+- COPY ./webapp /usr/local/apache2/htdocs
+- CMD ["httpd-foreground"]
+- dockerwork 폴더 안에 webapp 폴더를 생성 후, hello world를 띄우는 index.html 파일 생성
+- cmd에서 dockerwork 폴더를 가리킴
+- docker build -t webserver ./ (해당 폴더에서 dockerfile을 찾아 빌드, 이름은 webserver)
+- 이후 run하여 컨테이너 실행시키면 해당 포트로 접속시 index파일의 내용이 화면에 뜸
