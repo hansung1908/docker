@@ -36,6 +36,7 @@
 - docker exec 변경할명령어(-it) 컨테이너id 접근방식(bash) (해당 컨테이너의 명령어를 변경)
 - docker commit 컨테이너id 허브리포지토리주소 (해당 컨테이너를 이미지화하여 커밋, :1.0라는 태그를 붙혀 버전 표시)
 - docker push 허브리포지토리주소 (해당 이미지를 허브에 업로드)
+- docker logs 컨테이너id (해당 컨테이너의 콘솔로그창 확인)
 
 ### 명령어(실행)
 - docker run 프로그램이름 or 이미지id (해당 프로그램 실행, 접속은 포트포워딩 이후에 가능, 옵션은 run 명령어 바로 뒤에 붙혀줌, 이미지에 없는 프로그램 실행시 설치도 동시 진행)
@@ -81,3 +82,10 @@
 - cmd에서 dockerwork 폴더를 가리킴
 - docker build -t webserver ./ (해당 폴더에서 dockerfile을 찾아 빌드, 이름은 webserver)
 - 이후 run하여 컨테이너 실행시키면 해당 포트로 접속시 index파일의 내용이 화면에 뜸
+
+### 명령어(docker file)
+- WORKDIR /app (호스트 서버(window)에서 도커를 통해 터미널로 컨테이너(ubuntu)로 접근시 해당 주소로 연결)
+- COPY /build/aws-v3-0.0.3.jar ./application.jar (/build에 있는 aws-v3-0.0.3.jar를 가져와 ./(WORKDIR로 폴더 지정시 해당 폴더(/app)로 시작)에 있는 application.jar로 복붙, 압축해제 x)
+- ADD 파일 (해당 파일을 추가, zip파일은 압축해제 후 추가)
+- ENTRYPOINT ["java",  "-jar", "-Dspring.profiles.active=dev", "application.jar"] (jar 실행을 위해 java를 띄우고 jar파일이라 명시, dev라는 옵션을 추가하고 application.jar에 설정)
+- CMD ["--server.port=8080"] (서버포트를 8080으로 설정, entrypoint는 실행, cmd는 옵션)
