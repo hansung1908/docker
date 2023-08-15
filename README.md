@@ -89,3 +89,5 @@
 - ADD 파일 (해당 파일을 추가, zip파일은 압축해제 후 추가)
 - ENTRYPOINT ["java",  "-jar", "-Dspring.profiles.active=dev", "application.jar"] (jar 실행을 위해 java를 띄우고 jar파일이라 명시, dev라는 옵션을 추가하고 application.jar에 설정)
 - CMD ["--server.port=8080"] (서버포트를 8080으로 설정, entrypoint는 실행, cmd는 옵션)
+- RUN 리눅스명령어(apt-get update, apt-get install -y nginx) (해당 리눅스 명령어를 실행)
+- ENTRYPOINT ["nginx", "-g", "daemon off;"] (nginx 실행을 위해 -g옵션을 추가하고 데몬을 중지하는 명령어 설정(백그라운드에서 nginx 실행시 바로 종료되므로 포그라운드 실행을 위해 종료))
