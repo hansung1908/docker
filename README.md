@@ -37,6 +37,7 @@
 - docker commit 컨테이너id 허브리포지토리주소 (해당 컨테이너를 이미지화하여 커밋, :1.0라는 태그를 붙혀 버전 표시)
 - docker push 허브리포지토리주소 (해당 이미지를 허브에 업로드)
 - docker logs 컨테이너id (해당 컨테이너의 콘솔로그창 확인)
+- docker inspect 컨테이너id (해당 컨테이너의 설치된 이미지를 분석)
 
 ### 명령어(실행)
 - docker run 프로그램이름 or 이미지id (해당 프로그램 실행, 접속은 포트포워딩 이후에 가능, 옵션은 run 명령어 바로 뒤에 붙혀줌, 이미지에 없는 프로그램 실행시 설치도 동시 진행)
@@ -72,7 +73,7 @@
 - vi hello (hello라는 이름의 파일 생성, 내용 입력은 aws repository를 참고)
 
 ### docker file(기본적인 과정)
-- mkdir dockerwork (c:/users/사용자이름(컴퓨터이름)경로에 폴더 생성(cmd 기본경로))
+- mkdir dockerwork (bash가 가르키는 곳에 dockerwork라는 이름의 폴더 생성)
 - notepad를 통해 dockerfile 생성 (txt 확장자가 붙으면 제거, 확장자가 file이여야 함)
 - dockerfile 내용 (httpd 이미지를 가져와 .webapp에 있는 내용을 /usr/local/apache2/htdocs에 복붙, 이때 httpd-foreground 커맨드로 실행)
 - FROM httpd
@@ -91,3 +92,4 @@
 - CMD ["--server.port=8080"] (서버포트를 8080으로 설정, entrypoint는 실행, cmd는 옵션)
 - RUN 리눅스명령어(apt-get update, apt-get install -y nginx) (해당 리눅스 명령어를 실행)
 - ENTRYPOINT ["nginx", "-g", "daemon off;"] (nginx 실행을 위해 -g옵션을 추가하고 데몬을 중지하는 명령어 설정(백그라운드에서 nginx 실행시 바로 종료되므로 포그라운드 실행을 위해 종료))
+- conf 파일이나 html 파일처럼 기본적인 틀이 잡혀있는 파일은 nginx 내에 경로에 있는 해당 파일들을 복사하여 변경한 뒤 해당 경로로 COPY를 통해 덮어씌우면 됨
