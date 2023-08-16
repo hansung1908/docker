@@ -91,5 +91,11 @@
 - ENTRYPOINT ["java",  "-jar", "-Dspring.profiles.active=dev", "application.jar"] (jar 실행을 위해 java를 띄우고 jar파일이라 명시, dev라는 옵션을 추가하고 application.jar에 설정)
 - CMD ["--server.port=8080"] (서버포트를 8080으로 설정, entrypoint는 실행, cmd는 옵션)
 - RUN 리눅스명령어(apt-get update, apt-get install -y nginx) (해당 리눅스 명령어를 실행)
+- COPY conf/nginx.conf /etc/nginx/conf.d/default.conf (nginx.conf 설정파일을 default.conf 설정파일에 복붙)
 - ENTRYPOINT ["nginx", "-g", "daemon off;"] (nginx 실행을 위해 -g옵션을 추가하고 데몬을 중지하는 명령어 설정(백그라운드에서 nginx 실행시 바로 종료되므로 포그라운드 실행을 위해 종료))
+
+### nginx
+- 웹 서버용 오픈 소스 프로젝트, 가볍고 성능이 우수
 - conf 파일이나 html 파일처럼 기본적인 틀이 잡혀있는 파일은 nginx 내에 경로에 있는 해당 파일들을 복사하여 변경한 뒤 해당 경로로 COPY를 통해 덮어씌우면 됨
+- 여러 서버를 운영할 경우 각 서버로 포트포워딩을 하기 위해 프록시 서버(로드 밸런서)를 두어 이곳으로 모든 요청이 거쳐 해당 서버로 진입
+- conf 파일 설정시 upstram 서버이름 (해당 서버의 주소 설정), location /서버이름 (해당 서버로 포트포워딩)
