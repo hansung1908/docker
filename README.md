@@ -93,9 +93,19 @@
 - RUN 리눅스명령어(apt-get update, apt-get install -y nginx) (해당 리눅스 명령어를 실행)
 - COPY conf/nginx.conf /etc/nginx/conf.d/default.conf (nginx.conf 설정파일을 default.conf 설정파일에 복붙)
 - ENTRYPOINT ["nginx", "-g", "daemon off;"] (nginx 실행을 위해 -g옵션을 추가하고 데몬을 중지하는 명령어 설정(백그라운드에서 nginx 실행시 바로 종료되므로 포그라운드 실행을 위해 종료))
+- ENV MYSQL_USER=임의아이디 (mysql 접속시 들어가기 위해 필요한 아이디 환경변수 설정, MYSQL_PASSWORD, ROOT_PASSWORD, DATABASE도 설정해야 하고 각각 임의로 지어줌)
+- CMD ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"] (서버 문자 인코딩을 utf8mb4로 설정, 자세한건 도커 허브 mysql 문서 참조)
 
 ### nginx
 - 웹 서버용 오픈 소스 프로젝트, 가볍고 성능이 우수
 - conf 파일이나 html 파일처럼 기본적인 틀이 잡혀있는 파일은 nginx 내에 경로에 있는 해당 파일들을 복사하여 변경한 뒤 해당 경로로 COPY를 통해 덮어씌우면 됨
 - 여러 서버를 운영할 경우 각 서버로 포트포워딩을 하기 위해 프록시 서버(로드 밸런서)를 두어 이곳으로 모든 요청이 거쳐 해당 서버로 진입
 - conf 파일 설정시 upstram 서버이름 (해당 서버의 주소 설정), location /서버이름 (해당 서버로 포트포워딩)
+
+### mysql
+- 오픈 소스 rdbms(relationl database management system)
+- 도커 파일로 mysql을 빌드하고 컨테이너에 실행하면 mysql workbanch로 들어가 'mysql connections' 옆 + 버튼을 눌러 연결
+- 커넥션 이름은 임의로 짓고 포트 번호는 컨테이너 실행시 넣었던 번호(기본은 3306)으로 설정, 유저네임과 비밀번호는 도커 파일에 설정한거 그대로 입력('test connection' 버튼으로 테스트 가능)
+- show variables like 'character_set_%'; (문자 인코딩 설정 확인, 도커 파일에서 설정한 것과 일치해야 함)
+- 테이블 데이터를 컨테이너에 두고 사용하면 매번 새로운 볼륨 연결을 요구하기에 호스트 서버에 데이터를 저장하는 폴더를 두고 볼륨 연결
+- docker run -d -v c:/Spring/docker/ex05/mysql-volume:/var/lib/mysql -p 3307:3306 --name mysql-container mysql-image (호스트 서버에 있는 폴더를 볼륨 연결하여 컨테이너 실행, c:/Spring/docker/ex05/mysql-volume 대신 임의로 이름 지어진 볼륨을 사용해도 저장 o)
