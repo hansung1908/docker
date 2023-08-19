@@ -14,6 +14,7 @@
 - 컴포즈(compose)는 두개 이상의 컨테이너를 결합하여 실행
 - 허브(hub)는 깃허브처럼 컨테이너를 관리하는 서버에 자신의 컨테이너를 업로드
 - 깃허브에선 깃이 필요한거 처럼 도커 허브를 이용하려면 도커 설치는 필수
+- 서로 요청과 응답을 받는 두 컨테이너는 각각 도커 파일을 통해 이미지로 실행해야하는데 컴포즈 파일(yaml)을 작성하면 두 컨테이너가 유기적 연결을 통해 한번에 실행
 
 ### 설치
 - 도커 설치 시 도커 컴포즈도 함께 설치
@@ -109,3 +110,9 @@
 - show variables like 'character_set_%'; (문자 인코딩 설정 확인, 도커 파일에서 설정한 것과 일치해야 함)
 - 테이블 데이터를 컨테이너에 두고 사용하면 매번 새로운 볼륨 연결을 요구하기에 호스트 서버에 데이터를 저장하는 폴더를 두고 볼륨 연결
 - docker run -d -v c:/Spring/docker/ex05/mysql-volume:/var/lib/mysql -p 3307:3306 --name mysql-container mysql-image (호스트 서버에 있는 폴더를 볼륨 연결하여 컨테이너 실행, c:/Spring/docker/ex05/mysql-volume 대신 임의로 이름 지어진 볼륨을 사용해도 저장 o)
+
+### docker-compose.yml
+- 기존 스프링에서 쓰던 yml 방식을 사용
+- mysqldb를 제외한 모든 설정은 키워드이며 mysqldb는 프로세스 이름
+- cmd에 docker-compose up (컴포즈 파일 실행, 맨뒤에 -d를 붙히면 백그라운드 실행)
+- db테스트를 위해 person 테이블(id int pk, name varchar(100))을 create하고 insert로 (1, "qwer")의 더미 데이터를 입력
