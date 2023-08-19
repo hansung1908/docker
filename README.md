@@ -116,3 +116,4 @@
 - mysqldb를 제외한 모든 설정은 키워드이며 mysqldb는 프로세스 이름
 - cmd에 docker-compose up (컴포즈 파일 실행, 맨뒤에 -d를 붙히면 백그라운드 실행)
 - db테스트를 위해 person 테이블(id int pk, name varchar(100))을 create하고 insert로 (1, "qwer")의 더미 데이터를 입력
+- 간단한 python 웹 어플리케이션을 도커 컴포즈로 실행을 해보기 위한 튜토리얼은 'https://docs.docker.com/compose/gettingstarted/'
