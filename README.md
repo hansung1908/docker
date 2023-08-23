@@ -77,9 +77,11 @@
 - mkdir dockerwork (bash가 가르키는 곳에 dockerwork라는 이름의 폴더 생성)
 - notepad를 통해 dockerfile 생성 (txt 확장자가 붙으면 제거, 확장자가 file이여야 함)
 - dockerfile 내용 (httpd 이미지를 가져와 .webapp에 있는 내용을 /usr/local/apache2/htdocs에 복붙, 이때 httpd-foreground 커맨드로 실행)
-- FROM httpd
-- COPY ./webapp /usr/local/apache2/htdocs
-- CMD ["httpd-foreground"]
+```sh
+FROM httpd
+COPY ./webapp /usr/local/apache2/htdocs
+CMD ["httpd-foreground"]
+```
 - dockerwork 폴더 안에 webapp 폴더를 생성 후, hello world를 띄우는 index.html 파일 생성
 - cmd에서 dockerwork 폴더를 가리킴
 - docker build -t webserver ./ (해당 폴더에서 dockerfile을 찾아 빌드, 이름은 webserver)
@@ -117,7 +119,6 @@
 - cmd에 docker-compose up (컴포즈 파일 실행, 맨뒤에 -d를 붙히면 백그라운드 실행)
 - db테스트를 위해 person 테이블(id int pk, name varchar(100))을 create하고 insert로 (1, "qwer")의 더미 데이터를 입력
 - 간단한 python 웹 어플리케이션을 도커 컴포즈로 실행을 해보기 위한 튜토리얼은 'https://docs.docker.com/compose/gettingstarted/'
-
 ### spring 프로젝트 배포
 - build.gradle 파일에 jar의 설정을 enabled = false로 하면 jar 파일이 하나만 생성 (원래는 2개 생성)
 - docker-compose에서 db는 bulid되는 Dockerfile을 해당 경로를 기준으로 구우라는 설정, networks는 db랑 spring이랑 같은 네트워크 사용한다는 설정 (network는 키워드)
