@@ -53,16 +53,20 @@
 
 ### 명령어(실행 상태의 컨테이너를 이미지까지 한꺼번에 삭제)
 - linux 혹은 MAC (windows에서 git bash)
-- docker stop $(docker ps -q)
-- docker rm $(docker ps -a -q)
-- docker rmi -f $(docker images -q)
+```sh
+docker stop $(docker ps -q)
+docker rm $(docker ps -a -q)
+docker rmi -f $(docker images -q)
+```
 - windows
-- for /f "delims=" %A in ('docker ps -q') do (set rm1=%A)
-- for /f "delims=" %A in ('docker ps -a -q') do (set rm2=%A)
-- for /f "delims=" %A in ('docker images -q') do (set rm3=%A)
-- docker stop %rm1%
-- docker rm %rm2%
-- docker rmi -f %rm3%
+```sh
+for /f "delims=" %A in ('docker ps -q') do (set rm1=%A)
+for /f "delims=" %A in ('docker ps -a -q') do (set rm2=%A)
+for /f "delims=" %A in ('docker images -q') do (set rm3=%A)
+docker stop %rm1%
+docker rm %rm2%
+docker rmi -f %rm3%
+```
 - shift + insert (cmd창에 붙여넣기)
 
 ### 명령어(ubuntu(linux)에서 vi에디터 설치까지)
@@ -119,8 +123,28 @@ CMD ["httpd-foreground"]
 - cmd에 docker-compose up (컴포즈 파일 실행, 맨뒤에 -d를 붙히면 백그라운드 실행)
 - db테스트를 위해 person 테이블(id int pk, name varchar(100))을 create하고 insert로 (1, "qwer")의 더미 데이터를 입력
 - 간단한 python 웹 어플리케이션을 도커 컴포즈로 실행을 해보기 위한 튜토리얼은 'https://docs.docker.com/compose/gettingstarted/'
+
 ### spring 프로젝트 배포
 - build.gradle 파일에 jar의 설정을 enabled = false로 하면 jar 파일이 하나만 생성 (원래는 2개 생성)
 - docker-compose에서 db는 bulid되는 Dockerfile을 해당 경로를 기준으로 구우라는 설정, networks는 db랑 spring이랑 같은 네트워크 사용한다는 설정 (network는 키워드)
 - server는 depend_on을 db로 설정하여 db가 실행이 안될 경우 server 실행도 막음 (db에 의존하여 실행), networks도 db와 동일하게 설정하여 같은 네트워크를 사용한다고 표시
 - spring내 application.yml 설정시 db를 환경변수가 아닌 그대로 적어주면 중간에 있는 db라는 키워드를 인식 x (docker-compose는 dns 설정이 되어 있어 환경변수로 해야 해당 db의 ip주소로 치환)
+
+### react
+- npm start (리액트 실행)
+- npm run build (리액트 빌드(html 파일 만들기))
+- docker build . -t 이미지이름 (dockerfile 만들어서 이미지 빌드)
+- docker run -p 80:80 -dit 이미지이름 (nginx 실행)
+- dockerfile을 통해서 nginx 설치 + 빌드 + 빌드된 폴더 nginx로 이동까지 한번에 하는 법
+```sh
+FROM node:alpine as build
+WORKDIR /app
+COPY package.json /app
+RUN npm install --slient
+COPY . /app
+RUN npm run build
+
+FROM nginx
+COPY --from=build /app/build  /usr/share/nginx/html
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+```
