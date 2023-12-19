@@ -102,6 +102,8 @@ CMD ["httpd-foreground"]
 - ENTRYPOINT ["nginx", "-g", "daemon off;"] (nginx 실행을 위해 -g옵션을 추가하고 데몬을 중지하는 명령어 설정(백그라운드에서 nginx 실행시 바로 종료되므로 포그라운드 실행을 위해 종료))
 - ENV MYSQL_USER=임의아이디 (mysql 접속시 들어가기 위해 필요한 아이디 환경변수 설정, MYSQL_PASSWORD, ROOT_PASSWORD, DATABASE도 설정해야 하고 각각 임의로 지어줌)
 - CMD ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"] (서버 문자 인코딩을 utf8mb4로 설정, 자세한건 도커 허브 mysql 문서 참조)
+- RUN sed -i 's/\r$//' gradlew (unix와 window의 시스템 차이로 인한 개행 문자 오류 해결)
+- 각 프로젝트마다 dockerfile을 만들면 설치하려는 툴의 버전을 확인
 
 ### nginx
 - 웹 서버용 오픈 소스 프로젝트, 가볍고 성능이 우수
@@ -123,6 +125,7 @@ CMD ["httpd-foreground"]
 - cmd에 docker-compose up (컴포즈 파일 실행, 맨뒤에 -d를 붙히면 백그라운드 실행)
 - db테스트를 위해 person 테이블(id int pk, name varchar(100))을 create하고 insert로 (1, "qwer")의 더미 데이터를 입력
 - 간단한 python 웹 어플리케이션을 도커 컴포즈로 실행을 해보기 위한 튜토리얼은 'https://docs.docker.com/compose/gettingstarted/'
+- 각 프로젝트마다 docker-compose 파일을 만들면 db, volume 설정을 확인
 
 ### spring 프로젝트 배포
 - build.gradle 파일에 jar의 설정을 enabled = false로 하면 jar 파일이 하나만 생성 (원래는 2개 생성)
