@@ -151,3 +151,8 @@ FROM nginx
 COPY --from=build /app/build  /usr/share/nginx/html
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
 ```
+
+### cors 문제
+- react에서 js를 통해 spring(server)로 요청시 서로 도메인 주소(localhost:3000, localhost:8080)가 달라서 생기는 문제(crossorigin)
+- @CrossOrigin(origins = "http://localhost:3000") (해당 도메인 주소는 요청 허용, 컨트롤러 최상단 어노테이션으로 설정)
+- 각 요청 메소드마다 설정도 가능, 필터를 이용하여 설정 가능
