@@ -156,3 +156,11 @@ ENTRYPOINT ["nginx", "-g", "daemon off;"]
 - react에서 js를 통해 spring(server)로 요청시 서로 도메인 주소(localhost:3000, localhost:8080)가 달라서 생기는 문제(crossorigin)
 - @CrossOrigin(origins = "http://localhost:3000") (해당 도메인 주소는 요청 허용, 컨트롤러 최상단 어노테이션으로 설정)
 - 각 요청 메소드마다 설정도 가능, 필터를 이용하여 설정 가능
+- nginx를 통해 리버스프록시(my-app 폴더 -> nginx 폴더 -> nginx.conf)를 만들면 @CrossOrigin 설정없이 우회해서 연결 가능
+- 리버스프록시 설정시 docker-compose 파일에 my-app을 추가하여 frontend로, spring이였던 server를 backend로 이름을 바꾸어 설정
+- 이때 frontend는 backend에 의존하도록 설정
+- my-app 폴더의 docker 파일에 COPY를 통해 nginx.conf를 docker에 복사
+
+### 배포
+- docker-compose는 로컬에서 테스트시 사용
+- 묶어서 배포하려면 kubernates를 사용

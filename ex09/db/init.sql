@@ -1,3 +1,5 @@
+drop table if exists product_tb;
+
 CREATE TABLE product_tb (
     id int auto_increment primary key,
     name varchar(50),
@@ -6,3 +8,4 @@ CREATE TABLE product_tb (
 
 insert into product_tb (name, price) values ('banana', 1000);
 insert into product_tb (name, price) values ('apple', 2000);
+insert into product_tb (name, price) values ('melon', 3000);
